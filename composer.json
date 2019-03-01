@@ -1,0 +1,50 @@
+{
+    "name": "chumakovanton/calculator",
+    "type": "library",
+    "description": "Calculator string expression",
+    "keywords": [
+        "ChumakovAnton",
+        "Calculator"
+    ],
+    "homepage": "https://github.com/ChumakovAnton/Calculator",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Chumakov Anton",
+            "email": "antosha.chumakov@gmail.com",
+            "homepage": "https://github.com/ChumakovAnton",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php" : "~7.2",
+        "ext-mbstring": "*"
+    },
+    "require-dev": {
+        "phpunit/phpunit" : ">=7.0",
+        "squizlabs/php_codesniffer": "^3.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "ChumakovAnton\\Calculator\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "ChumakovAnton\\Calculator\\": "tests"
+        }
+    },
+    "scripts": {
+        "test": "phpunit",
+        "check-style": "phpcs src tests",
+        "fix-style": "phpcbf src tests"
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.0-dev"
+        }
+    },
+    "config": {
+        "sort-packages": true
+    }
+}
