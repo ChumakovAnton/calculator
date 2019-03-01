@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace ChumakovAnton\Calculator;
 
-
 class Operation
 {
     protected const OPERATION_PRIORITIES = [
@@ -23,13 +22,17 @@ class Operation
     {
         $result = 0;
         switch ($this->operation) {
-            case '+' : $result = $leftOperand + $rightOperand;
+            case '+':
+                $result = $leftOperand + $rightOperand;
                 break;
-            case '-' : $result = $leftOperand - $rightOperand;
+            case '-':
+                $result = $leftOperand - $rightOperand;
                 break;
-            case '*' : $result = $leftOperand * $rightOperand;
+            case '*':
+                $result = $leftOperand * $rightOperand;
                 break;
-            case '/' : $result = $leftOperand / $rightOperand;
+            case '/':
+                $result = $leftOperand / $rightOperand;
                 break;
         }
         return $result;
@@ -37,8 +40,7 @@ class Operation
 
     public function getPriority(): int
     {
-        foreach(self::OPERATION_PRIORITIES as $priority => $operations)
-        {
+        foreach (self::OPERATION_PRIORITIES as $priority => $operations) {
             if (in_array($this->operation, $operations, true)) {
                 return $priority;
             }
