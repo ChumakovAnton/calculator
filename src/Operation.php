@@ -56,6 +56,6 @@ class Operation
                 return $priority;
             }
         }
-        return -1;
+        return 0;
     }
 }

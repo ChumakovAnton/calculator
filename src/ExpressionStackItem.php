@@ -13,20 +13,52 @@ class ExpressionStackItem
     protected $operation;
 
     /** @var ExpressionStackItem */
+    protected $subExpression;
+
+    /** @var ExpressionStackItem */
     protected $nextExpression;
 
-    public function __construct()
+    /** @var ExpressionStackItem */
+    protected $parentExpression;
+
+    public function __construct(float $operand = 0, string $operation = null)
     {
-        $this->operand = 0;
-        $this->operation = new Operation('+');
+        $this->operand = $operand;
+        $this->operation = new Operation($operation);
     }
 
-    public function getPriority(): int
+    public function getOperationPriority(): int
     {
         if (empty($this->operation)) {
             return -1;
         }
         return $this->operation->getPriority();
+    }
+
+    /**
+     * @return ExpressionStackItem
+     */
+    public function getNextExpression(): ?ExpressionStackItem
+    {
+        return $this->nextExpression;
+    }
+
+    /**
+     * @param ExpressionStackItem $nextExpression
+     * @return ExpressionStackItem|null
+     */
+    public function setNextExpression(?ExpressionStackItem $nextExpression): ?ExpressionStackItem
+    {
+        $this->nextExpression = $nextExpression;
+        return $this->nextExpression;
+    }
+
+    /**
+     * @return ExpressionStackItem
+     */
+    public function getParentExpression(): ?ExpressionStackItem
+    {
+        return $this->parentExpression;
     }
 
     /**
@@ -64,32 +96,50 @@ class ExpressionStackItem
     /**
      * @return null|ExpressionStackItem
      */
-    public function getNextExpression(): ?ExpressionStackItem
+    public function getSubExpression(): ?ExpressionStackItem
     {
-        return $this->nextExpression;
+        return $this->subExpression;
     }
 
     /**
-     * @param null|ExpressionStackItem $nextExpression
+     * @param null|ExpressionStackItem $subExpression
      * @return ExpressionStackItem|null
      */
-    protected function setNextExpression(?ExpressionStackItem $nextExpression): ?ExpressionStackItem
+    protected function setSubExpression(?ExpressionStackItem $subExpression): ?ExpressionStackItem
     {
-        $this->nextExpression = $nextExpression;
-        return $this->nextExpression;
+        $this->subExpression = $subExpression;
+        return $this->subExpression;
+    }
+
+    protected function excludeSubExpression(): void
+    {
+        $this->setSubExpression($this->subExpression->getSubExpression());
     }
 
     protected function excludeNextExpression(): void
     {
+        $this->setSubExpression($this->nextExpression->getSubExpression());
         $this->setNextExpression($this->nextExpression->getNextExpression());
     }
 
     /**
+     * @param ExpressionStackItem $expressionStackItem
      * @return ExpressionStackItem|null
      */
-    public function appendNextExpression(): ?ExpressionStackItem
+    public function appendSubExpression(ExpressionStackItem $expressionStackItem): ?ExpressionStackItem
     {
-        return $this->setNextExpression(new static());
+        $expressionStackItem->parentExpression = $this;
+        return $this->setSubExpression($expressionStackItem);
+    }
+
+    /**
+     * @param ExpressionStackItem $expressionStackItem
+     * @return ExpressionStackItem|null
+     */
+    public function appendNextExpression(ExpressionStackItem $expressionStackItem): ?ExpressionStackItem
+    {
+        $expressionStackItem->parentExpression = $this;
+        return $this->setNextExpression($expressionStackItem);
     }
 
     /**
@@ -98,17 +148,28 @@ class ExpressionStackItem
      */
     public function calculate(): float
     {
-        while (!empty($this->nextExpression)) {
-            if ($this->getPriority() >= $this->nextExpression->getPriority()) {
-                $rightOperand = $this->nextExpression->operand;
-            } else {
-                $rightOperand = $this->nextExpression->calculate();
+        while (!empty($this->nextExpression) || !empty($this->subExpression)) {
+            if (!empty($this->subExpression)) {
+                $this->subExpression->calculate();
+                $this->executeOperation($this->subExpression);
+                $this->excludeSubExpression();
             }
-            $newOperand = $this->operation->execute($this->operand, $rightOperand);
-            $this->setOperand($newOperand);
-            $this->setOperation($this->nextExpression->getOperation());
-            $this->excludeNextExpression();
+            if (!empty($this->nextExpression)) {
+                $this->executeOperation($this->nextExpression);
+                $this->excludeNextExpression();
+            }
         }
         return $this->operand;
+    }
+
+    /**
+     * @param ExpressionStackItem $expressionStackItem
+     * @throws Exception\DivisionByZeroException
+     */
+    protected function executeOperation(ExpressionStackItem $expressionStackItem): void
+    {
+        $result = $this->operation->execute($this->operand, $expressionStackItem->operand);
+        $this->setOperand($result);
+        $this->setOperation($expressionStackItem->getOperation());
     }
 }
