@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace ChumakovAnton\Calculator;
 
+use ChumakovAnton\Calculator\Exception\DivisionByZeroException;
+
 class Operation
 {
     protected const OPERATION_PRIORITIES = [
@@ -18,6 +20,12 @@ class Operation
         $this->operation = $operation;
     }
 
+    /**
+     * @param float $leftOperand
+     * @param float $rightOperand
+     * @return float|int
+     * @throws DivisionByZeroException
+     */
     public function execute(float $leftOperand, float $rightOperand)
     {
         $result = 0;
@@ -32,6 +40,9 @@ class Operation
                 $result = $leftOperand * $rightOperand;
                 break;
             case '/':
+                if (empty($rightOperand)) {
+                    throw new DivisionByZeroException('Division by zero');
+                }
                 $result = $leftOperand / $rightOperand;
                 break;
         }
