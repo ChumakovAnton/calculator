@@ -6,6 +6,10 @@ namespace ChumakovAnton\Calculator;
 
 use ChumakovAnton\Calculator\Exception\InvalidArgumentException;
 
+/**
+ * Class ExpressionCalculator
+ * @package ChumakovAnton\Calculator
+ */
 class ExpressionCalculator implements Calculator
 {
     /**
@@ -22,7 +26,7 @@ class ExpressionCalculator implements Calculator
         $rootExpression = null;
         $expressionPoint = null;
         foreach ($matches[0] as $key => $value) {
-            $expression = new ExpressionStackItem((float)$matches[1][$key], $matches[2][$key]);
+            $expression = new ExpressionStackItem(new DefaultOperation($matches[2][$key]), (float)$matches[1][$key]);
 
             if (null === $rootExpression) {
                 $rootExpression = $expression;
