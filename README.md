@@ -14,8 +14,6 @@ Calculator string expression.
 If any of the following are applicable to your project, then the directory structure should follow industry best practices by being named the following.
 
 ```
-bin/        
-config/
 src/
 tests/
 vendor/
@@ -27,16 +25,19 @@ vendor/
 Via Composer
 
 ``` bash
-$ composer require ChumakovAnton/Calculator
+$ composer require chumakovanton/calculator
 ```
 
 ## Usage
 
-``` php
+Sample usage
+
 ``` php
 $calculator = new ChumakovAnton\Calculator\ExpressionCalculator();
-echo $calculator->execute('4+5*2-5+6/3');
+echo $calculator->process('4+5*2-5+6/3');
 ```
+
+For change implementation you need to implement ChumakovAnton\Calculator\Calculator interface
 
 ## Change log
 
@@ -65,17 +66,17 @@ If you discover any security related issues, please email antosha.chumakov@gmail
 
 The MIT License (MIT). Please see [License File](LICENSE.md) for more information.
 
-[ico-version]: https://img.shields.io/packagist/v/ChumakovAnton/Calculator.svg?style=flat-square
+[ico-version]: https://img.shields.io/packagist/v/chumakovanton/calculator.svg?style=flat-square
 [ico-license]: https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square
 [ico-travis]: https://img.shields.io/travis/ChumakovAnton/Calculator/master.svg?style=flat-square
-[ico-scrutinizer]: https://img.shields.io/scrutinizer/coverage/g/ChumakovAnton/Calculator.svg?style=flat-square
-[ico-code-quality]: https://img.shields.io/scrutinizer/g/ChumakovAnton/Calculator.svg?style=flat-square
-[ico-downloads]: https://img.shields.io/packagist/dt/ChumakovAnton/Calculator.svg?style=flat-square
+[ico-scrutinizer]: https://img.shields.io/scrutinizer/coverage/g/chumakovanton/calculator.svg?style=flat-square
+[ico-code-quality]: https://img.shields.io/scrutinizer/g/chumakovanton/calculator.svg?style=flat-square
+[ico-downloads]: https://img.shields.io/packagist/dt/chumakovanton/calculator.svg?style=flat-square
 
-[link-packagist]: https://packagist.org/packages/ChumakovAnton/Сalculator
-[link-travis]: https://travis-ci.org/ChumakovAnton/Сalculator
-[link-scrutinizer]: https://scrutinizer-ci.com/g/ChumakovAnton/Сalculator/code-structure
-[link-code-quality]: https://scrutinizer-ci.com/g/ChumakovAnton/Сalculator
-[link-downloads]: https://packagist.org/packages/ChumakovAnton/Сalculator
+[link-packagist]: https://packagist.org/packages/chumakovanton/calculator
+[link-travis]: https://travis-ci.org/ChumakovAnton/Calculator
+[link-scrutinizer]: https://scrutinizer-ci.com/g/chumakovanton/calculator/code-structure
+[link-code-quality]: https://scrutinizer-ci.com/g/chumakovanton/calculator
+[link-downloads]: https://packagist.org/packages/chumakovanton/calculator
 [link-author]: https://github.com/ChumakovAnton
 [link-contributors]: ../../contributors
