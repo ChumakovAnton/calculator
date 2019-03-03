@@ -8,6 +8,10 @@ php:
 # See: http://docs.travis-ci.com/user/workers/container-based-infrastructure/
 sudo: false
 
+branches:
+  only:
+    - master
+
 ## Cache composer
 cache:
   directories:
