@@ -4,6 +4,10 @@ declare(strict_types=1);
 
 namespace ChumakovAnton\Calculator;
 
+/**
+ * Class ExpressionStackItem
+ * @package ChumakovAnton\Calculator
+ */
 class ExpressionStackItem
 {
     /** @var float */
@@ -21,12 +25,20 @@ class ExpressionStackItem
     /** @var ExpressionStackItem */
     protected $parentExpression;
 
-    public function __construct(float $operand = 0, string $operation = '')
+    /**
+     * ExpressionStackItem constructor.
+     * @param Operation $operation
+     * @param float $operand
+     */
+    public function __construct(Operation $operation, float $operand = 0)
     {
         $this->operand = $operand;
-        $this->operation = new Operation($operation);
+        $this->operation = $operation;
     }
 
+    /**
+     * @return int
+     */
     public function getOperationPriority(): int
     {
         return $this->operation->getPriority();
