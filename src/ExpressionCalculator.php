@@ -49,6 +49,9 @@ class ExpressionCalculator implements Calculator
                 $expressionPoint->calculate();
             }
         }
+        if (null === $rootExpression) {
+            throw new InvalidArgumentException('Input string has error');
+        }
         return $rootExpression->calculate();
     }
 
