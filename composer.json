@@ -31,7 +31,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "ChumakovAnton\\Calculator\\": "tests"
+            "ChumakovAnton\\Calculator\\Test\\": "tests"
         }
     },
     "scripts": {

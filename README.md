@@ -33,7 +33,8 @@ $ composer require ChumakovAnton/Calculator
 ## Usage
 
 ``` php
-$calculator = new ChumakovAnton\Calculator\Calculator();
+``` php
+$calculator = new ChumakovAnton\Calculator\ExpressionCalculator();
 echo $calculator->execute('4+5*2-5+6/3');
 ```
 

@@ -21,22 +21,6 @@ class ExpressionStackItem
         $this->operation = new Operation('+');
     }
 
-    public function calculate(): float
-    {
-        while (!empty($this->nextExpression)) {
-            if ($this->getPriority() >= $this->nextExpression->getPriority()) {
-                $rightOperand = $this->nextExpression->operand;
-            } else {
-                $rightOperand = $this->nextExpression->calculate();
-            }
-            $newOperand = $this->operation->execute($this->operand, $rightOperand);
-            $this->setOperand($newOperand);
-            $this->setOperation($this->nextExpression->operation);
-            $this->excludeNextExpression();
-        }
-        return $this->operand;
-    }
-
     public function getPriority(): int
     {
         if (empty($this->operation)) {
@@ -48,7 +32,7 @@ class ExpressionStackItem
     /**
      * @return float
      */
-    public function getOperand(): float
+    protected function getOperand(): float
     {
         return $this->operand;
     }
@@ -59,6 +43,22 @@ class ExpressionStackItem
     public function setOperand(float $operand): void
     {
         $this->operand = $operand;
+    }
+
+    /**
+     * @param Operation $operation
+     */
+    public function setOperation(Operation $operation): void
+    {
+        $this->operation = $operation;
+    }
+
+    /**
+     * @return Operation|null
+     */
+    public function getOperation(): ?Operation
+    {
+        return $this->operation;
     }
 
     /**
@@ -73,7 +73,7 @@ class ExpressionStackItem
      * @param null|ExpressionStackItem $nextExpression
      * @return ExpressionStackItem|null
      */
-    public function setNextExpression(?ExpressionStackItem $nextExpression): ?ExpressionStackItem
+    protected function setNextExpression(?ExpressionStackItem $nextExpression): ?ExpressionStackItem
     {
         $this->nextExpression = $nextExpression;
         return $this->nextExpression;
@@ -85,10 +85,30 @@ class ExpressionStackItem
     }
 
     /**
-     * @param Operation $operation
+     * @return ExpressionStackItem|null
      */
-    public function setOperation(Operation $operation): void
+    public function appendNextExpression(): ?ExpressionStackItem
     {
-        $this->operation = $operation;
+        return $this->setNextExpression(new static());
+    }
+
+    /**
+     * @return float
+     * @throws Exception\DivisionByZeroException
+     */
+    public function calculate(): float
+    {
+        while (!empty($this->nextExpression)) {
+            if ($this->getPriority() >= $this->nextExpression->getPriority()) {
+                $rightOperand = $this->nextExpression->operand;
+            } else {
+                $rightOperand = $this->nextExpression->calculate();
+            }
+            $newOperand = $this->operation->execute($this->operand, $rightOperand);
+            $this->setOperand($newOperand);
+            $this->setOperation($this->nextExpression->getOperation());
+            $this->excludeNextExpression();
+        }
+        return $this->operand;
     }
 }
