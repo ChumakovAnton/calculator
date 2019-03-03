@@ -38,13 +38,36 @@ class CalculatorTest extends \PHPUnit\Framework\TestCase
         ];
     }
 
+    public function validResults(): array
+    {
+        return [
+            'integer' => ['5+3*2-6/2', 8],
+            'negativeInteger' => ['1-5*2-7+4/2', -14],
+            'float' => ['8+5/2+1/4', 10.75],
+            'negativeFloat' => ['1-5/2-7', -8.5],
+        ];
+    }
+
+    /**
+     * @dataProvider validResults
+     * @param string $input
+     * @param float $result
+     * @throws DivisionByZeroException
+     * @throws InvalidArgumentException
+     */
+    public function testProcessCheckResults(string $input, float $result): void
+    {
+        $calculator = new ExpressionCalculator();
+        $this->assertEquals($calculator->process($input), $result);
+    }
+
     /**
      * @dataProvider invalidInputString
      * @param string $input
      * @throws InvalidArgumentException
      * @throws DivisionByZeroException
      */
-    public function testExecuteRaisesExceptionOnInvalidInputString(string $input): void
+    public function testProcessRaisesExceptionOnInvalidInputString(string $input): void
     {
         $this->expectException(InvalidArgumentException::class);
         $calculator = new ExpressionCalculator();
@@ -57,7 +80,7 @@ class CalculatorTest extends \PHPUnit\Framework\TestCase
      * @throws InvalidArgumentException
      * @throws DivisionByZeroException
      */
-    public function testExecuteRaisesExceptionOnDivisionByZero(string $input): void
+    public function testProcessRaisesExceptionOnDivisionByZero(string $input): void
     {
         $this->expectException(DivisionByZeroException::class);
         $calculator = new ExpressionCalculator();
@@ -70,7 +93,7 @@ class CalculatorTest extends \PHPUnit\Framework\TestCase
      * @throws InvalidArgumentException
      * @throws DivisionByZeroException
      */
-    public function testExecuteSucceedsOnValidInputString(string $input): void
+    public function testProcessSucceedsOnValidInputString(string $input): void
     {
         $calculator = new ExpressionCalculator();
         $result = $calculator->process($input);

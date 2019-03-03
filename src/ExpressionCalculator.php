@@ -8,10 +8,6 @@ use ChumakovAnton\Calculator\Exception\InvalidArgumentException;
 
 class ExpressionCalculator implements Calculator
 {
-    public function __construct()
-    {
-    }
-
     /**
      * @param string $input
      * @return float
@@ -23,14 +19,33 @@ class ExpressionCalculator implements Calculator
         self::validateInput($input);
         $matches = [];
         preg_match_all('/(\-?\d+)([\+\-\*\/])?/', $input, $matches);
-        $expression = new ExpressionStackItem();
-        $nextExpression = $expression;
+        $rootExpression = null;
+        $expressionPoint = null;
         foreach ($matches[0] as $key => $value) {
-            $nextExpression = $nextExpression->appendNextExpression();
-            $nextExpression->setOperand((float)$matches[1][$key]);
-            $nextExpression->setOperation(new Operation($matches[2][$key]));
+            $expression = new ExpressionStackItem((float)$matches[1][$key], $matches[2][$key]);
+
+            if (null === $rootExpression) {
+                $rootExpression = $expression;
+                $expressionPoint = $rootExpression;
+                continue;
+            }
+
+            $isHigherPriority = $expression->getOperationPriority() > $expressionPoint->getOperationPriority();
+            $isLowerPriority = $expression->getOperationPriority() < $expressionPoint->getOperationPriority();
+
+            if ($isHigherPriority) {
+                $expressionPoint = $expressionPoint->appendSubExpression($expression);
+            } else {
+                $expressionPoint->appendNextExpression($expression);
+
+                if ($isLowerPriority) {
+                    $expressionPoint = $expressionPoint->getParentExpression();
+                }
+
+                $expressionPoint->calculate();
+            }
         }
-        return $expression->calculate();
+        return $rootExpression->calculate();
     }
 
     /**
