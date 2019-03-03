@@ -72,10 +72,10 @@ The MIT License (MIT). Please see [License File](LICENSE.md) for more informatio
 [ico-code-quality]: https://img.shields.io/scrutinizer/g/ChumakovAnton/Calculator.svg?style=flat-square
 [ico-downloads]: https://img.shields.io/packagist/dt/ChumakovAnton/Calculator.svg?style=flat-square
 
-[link-packagist]: https://packagist.org/packages/ChumakovAnton/calculator
-[link-travis]: https://travis-ci.org/ChumakovAnton/calculator
-[link-scrutinizer]: https://scrutinizer-ci.com/g/ChumakovAnton/calculator/code-structure
-[link-code-quality]: https://scrutinizer-ci.com/g/ChumakovAnton/calculator
-[link-downloads]: https://packagist.org/packages/ChumakovAnton/calculator
+[link-packagist]: https://packagist.org/packages/ChumakovAnton/Сalculator
+[link-travis]: https://travis-ci.org/ChumakovAnton/Сalculator
+[link-scrutinizer]: https://scrutinizer-ci.com/g/ChumakovAnton/Сalculator/code-structure
+[link-code-quality]: https://scrutinizer-ci.com/g/ChumakovAnton/Сalculator
+[link-downloads]: https://packagist.org/packages/ChumakovAnton/Сalculator
 [link-author]: https://github.com/ChumakovAnton
 [link-contributors]: ../../contributors
