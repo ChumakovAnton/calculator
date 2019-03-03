@@ -21,7 +21,7 @@ class ExpressionStackItem
     /** @var ExpressionStackItem */
     protected $parentExpression;
 
-    public function __construct(float $operand = 0, string $operation = null)
+    public function __construct(float $operand = 0, string $operation = '')
     {
         $this->operand = $operand;
         $this->operation = new Operation($operation);
@@ -29,9 +29,6 @@ class ExpressionStackItem
 
     public function getOperationPriority(): int
     {
-        if (empty($this->operation)) {
-            return -1;
-        }
         return $this->operation->getPriority();
     }
 
@@ -168,7 +165,7 @@ class ExpressionStackItem
      */
     protected function executeOperation(ExpressionStackItem $expressionStackItem): void
     {
-        $result = $this->operation->execute($this->operand, $expressionStackItem->operand);
+        $result = $this->operation->execute($this->operand, $expressionStackItem->getOperand());
         $this->setOperand($result);
         $this->setOperation($expressionStackItem->getOperation());
     }

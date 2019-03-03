@@ -19,6 +19,7 @@ class CalculatorTest extends \PHPUnit\Framework\TestCase
             'first-symbol-operation' => ['*1234+453'],
             'first-symbol-operation-div' => ['/1234+453'],
             'alphabetic-symbols' => ['a1234+453'],
+            'alphabetic-symbols-middle' => ['1234+a+453'],
         ];
     }
 
